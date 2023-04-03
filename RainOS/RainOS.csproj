@@ -18,22 +18,20 @@
         <Description>Use VMware Player or Workstation to deploy and debug.</Description>
         <PxeInterface>192.168.0.8</PxeInterface>
         <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-        <DebugEnabled>True</DebugEnabled>
+        <DebugEnabled>False</DebugEnabled>
         <TraceMode>User</TraceMode>
     </PropertyGroup>
 
     <ItemGroup>
       <None Remove="resources\cursor.bmp" />
-      <None Remove="resources\loadinganim\bg.bmp" />
-      <None Remove="resources\loadinganim\slider.bmp" />
+      <None Remove="resources\lang\EN-US.lang" />
       <None Remove="resources\logo360.bmp" />
       <None Remove="resources\test.bmp" />
     </ItemGroup>
 
     <ItemGroup>
       <EmbeddedResource Include="resources\cursor.bmp" />
-      <EmbeddedResource Include="resources\loadinganim\bg.bmp" />
-      <EmbeddedResource Include="resources\loadinganim\slider.bmp" />
+      <EmbeddedResource Include="resources\lang\EN-US.lang" />
       <EmbeddedResource Include="resources\logo360.bmp" />
       <EmbeddedResource Include="resources\test.bmp" />
     </ItemGroup>
@@ -46,6 +44,7 @@
 
     <ItemGroup>
       <Folder Include="Processes\" />
+      <Folder Include="resources\loadinganim\" />
     </ItemGroup>
 
 </Project>

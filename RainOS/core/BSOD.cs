@@ -12,6 +12,9 @@ namespace RainOS.core
     {
         internal static void Trigger(Exception ex)
         {
+            if (Globals.canvas != null)
+                Globals.canvas.Disable();
+
             Console.BackgroundColor = ConsoleColor.Blue;
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.Clear();

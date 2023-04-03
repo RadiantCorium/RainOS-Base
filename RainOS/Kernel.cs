@@ -2,9 +2,12 @@
 using Cosmos.System.FileSystem;
 using Cosmos.System.FileSystem.VFS;
 using Cosmos.System.Graphics;
+using Cosmos.System.Graphics.Fonts;
 using IL2CPU.API.Attribs;
 using RainOS.core;
+using RainOS.core.services;
 using System;
+using System.IO;
 using Console = System.Console;
 using Sys = Cosmos.System;
 
@@ -27,9 +30,10 @@ namespace RainOS
 
                 Console.WriteLine("Checking System Status...");
 
-                // check for important files
-
-                throw new Exception("test");
+                if (!File.Exists(@"0:\sysconfig.psc"))
+                {
+                    FTS.Open();
+                }
 
                 CPU.Halt();
             }

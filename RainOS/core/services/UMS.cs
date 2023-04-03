@@ -101,32 +101,40 @@ namespace RainOS.core.services
         /// <returns>0 if successfull, 1 if user already exists</returns>
         public static int CreateUser(string username, string password, PermissionLevel permissionLevel, bool login)
         {
-            // first check if the user already exists
-            if (GetUserInfo(username) != null)
+            try
             {
+                // first check if the user already exists
+                if (GetUserInfo(username) != null)
+                {
+                    if (login)
+                    {
+                        LoginUser(username, password);
+                    }
+                    return 1;
+                }
+
+                // hash the password
+                string hashedPass = HashPassword(password);
+
+                // if not, write the user's data to the file
+                string userdata = username + "," + hashedPass + "," + (int)permissionLevel;
+
+                StreamWriter s = File.AppendText(@"0:\users.txt");
+                s.WriteLine(userdata);
+                s.Close();
+
                 if (login)
                 {
                     LoginUser(username, password);
                 }
-                return 1;
+
+                return 0;
             }
-
-            // hash the password
-            string hashedPass = HashPassword(password);
-
-            // if not, write the user's data to the file
-            string userdata = username + "," + hashedPass + "," + (int)permissionLevel;
-
-            StreamWriter s = File.AppendText(@"0:\users.txt");
-            s.WriteLine(userdata);
-            s.Close();
-
-            if (login)
+            catch (Exception ex)
             {
-                LoginUser(username, password);
+                BSOD.Trigger(ex);
+                return -1;
             }
-
-            return 0;
         }
 
         /// <summary>
