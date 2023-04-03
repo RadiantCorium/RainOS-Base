@@ -18,6 +18,18 @@ namespace RainOS.core.services
         public static List<User> Users { get; set; }
 
         /// <summary>
+        /// Initializes UMS by logging in the KERNEL user
+        /// </summary>
+        public static void Init()
+        {
+            Users = new List<User>();
+
+            User kernel = new User("KERNEL", "", false);
+            kernel.PermissionLevel = PermissionLevel.System;
+            Users.Add(kernel);
+        }
+
+        /// <summary>
         /// This method logs a user in, and is responsible for checking credentials
         /// </summary>
         /// <param name="username">username of the user to log in</param>
@@ -38,7 +50,7 @@ namespace RainOS.core.services
                 return 2;
 
             // if we're at this point, the credentials are correct. create the user object and add it
-            User user = new User(username, hashedPass);
+            User user = new User(username, hashedPass, true);
             if (int.TryParse(userInfo.Split(",")[2], out int level))
             {
                 user.PermissionLevel = (PermissionLevel)level;
