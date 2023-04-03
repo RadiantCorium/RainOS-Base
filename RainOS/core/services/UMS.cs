@@ -164,6 +164,19 @@ namespace RainOS.core.services
             return null;
         }
 
+        public static User GetUser(string username)
+        {
+            foreach (User users in Users)
+            {
+                if (users.Name == username)
+                {
+                    return users;
+                }
+            }
+
+            return null;
+        }
+
         public static string HashPassword(string password)
         {
             Sha256 sha256 = new Sha256();

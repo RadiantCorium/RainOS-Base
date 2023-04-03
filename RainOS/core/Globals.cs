@@ -14,5 +14,9 @@ namespace RainOS.core
         public static CosmosVFS fs;
 
         public static Canvas canvas;
+
+        public static bool consoleMode = true;
+
+        public static PSCR sysconfig;
     }
 }

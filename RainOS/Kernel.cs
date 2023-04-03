@@ -35,7 +35,31 @@ namespace RainOS
                     FTS.Open();
                 }
 
-                CPU.Halt();
+                Console.WriteLine("Initializing PM...");
+                PM.Init();
+
+                Console.WriteLine("Initializing PSCR...");
+                Globals.sysconfig = new PSCR(@"0:\sysconfig.psc");
+
+                switch (Globals.sysconfig.data["dbm"])
+                {
+                    case "0": // boot menu
+                        // TODO: Add boot menu
+                        BSOD.Trigger(new Exception("Unsupported DBM setting"));
+                        break;
+
+                    case "1": // console mode
+                        PM.AddProcess(new Processes.ConsoleModeLogonUI(new Random().Next(100000, 999999)));
+                        break;
+
+                    case "2": // graphical mode
+                        BSOD.Trigger(new Exception("Unsupported DBM setting"));
+                        break;
+                        
+                    default:
+                        BSOD.Trigger(new Exception("Unsupported DBM setting"));
+                        break;
+                }
             }
             catch (Exception e)
             {
@@ -47,7 +71,7 @@ namespace RainOS
         {
             try
             {
-                
+                PM.UpdateAll();
             }
             catch (Exception e)
             {

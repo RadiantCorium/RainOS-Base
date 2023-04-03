@@ -39,41 +39,87 @@ namespace RainOS.core
 
             Console.WriteLine();
 
-            Console.WriteLine("Gathering CPU info...");
-
             string errorLog = "--CPU--";
+            string name = "--CPU--";
 
-            errorLog += $"\n\tVendor: {CPU.GetCPUVendorName()}";
-            errorLog += $"\n\tBrand String: {CPU.GetCPUBrandString()}";
-            //errorLog += $"\n\tCycle Speed: {CPU.GetCPUCycleSpeed()}";
-            errorLog += $"\n\tUptime: {CPU.GetCPUUptime()}";
+            try
+            {
+                Console.WriteLine("Gathering CPU info...");
 
-            Console.WriteLine("Gathering Memory info...");
+                errorLog = "--CPU--";
 
-            errorLog += "\n\n--MEMORY--";
-            errorLog += $"\n\tAmount (MB): {CPU.GetAmountOfRAM()}";
-            //errorLog += $"\n\tMemory Map: {CPU.GetMemoryMap()}";
+                errorLog += $"\n\tVendor: {CPU.GetCPUVendorName()}";
+                errorLog += $"\n\tBrand String: {CPU.GetCPUBrandString()}";
+                //errorLog += $"\n\tCycle Speed: {CPU.GetCPUCycleSpeed()}";
+                errorLog += $"\n\tUptime: {CPU.GetCPUUptime()}";
 
-            Console.WriteLine("Gathering Error info...");
+                Console.WriteLine("Gathering Memory info...");
 
-            errorLog += "\n\n--Error--";
+                errorLog += "\n\n--MEMORY--";
+                errorLog += $"\n\tAmount (MB): {CPU.GetAmountOfRAM()}";
+                //errorLog += $"\n\tMemory Map: {CPU.GetMemoryMap()}";
 
-            errorLog += $"\n\tError: {ex.ToString()}";
-            // errorLog += $"\n\tSource: {(ex.Source != null ? ex.Source : "N/A")}";
-            // errorLog += $"\n\tStack Trace: {(ex.StackTrace != null ? ex.StackTrace : "N/A")}";
-            //errorLog += $"\n\tType: {(ex.GetType() != null ? ex.GetType() : "N/A")}";
+                Console.WriteLine("Gathering Error info...");
 
-            Console.WriteLine("Finalizing...");
+                errorLog += "\n\n--Error--";
 
-            errorLog += $"\n\n{DateTime.Now.ToString("yyyy.MM.dd - HH:mm:ss")}";
+                errorLog += $"\n\tError: {(ex != null ? ex.ToString() : "N/A")}";
+                // errorLog += $"\n\tSource: {(ex.Source != null ? ex.Source : "N/A")}";
+                // errorLog += $"\n\tStack Trace: {(ex.StackTrace != null ? ex.StackTrace : "N/A")}";
+                //errorLog += $"\n\tType: {(ex.GetType() != null ? ex.GetType() : "N/A")}";
 
-            Console.WriteLine("Saving to file...");
+                Console.WriteLine("Finalizing...");
 
-            string name = $@"0:\errorlog-{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.txt";
+                errorLog += $"\n\n{DateTime.Now.ToString("yyyy.MM.dd - HH:mm:ss")}";
 
-            StreamWriter s = File.CreateText(name);
-            s.WriteLine(errorLog);
-            s.Close();
+                Console.WriteLine("Saving to file...");
+
+                name = $@"0:\errorlog-{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.txt";
+
+                try
+                {
+                    StreamWriter s = File.CreateText(name);
+                    s.WriteLine(errorLog);
+                    s.Close();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("ERROR WHILE SAVING LOG TO FILE! " + e.ToString());
+                }
+            }
+            catch (Exception e)
+            {
+                // rewrite the header lolol
+
+                Console.BackgroundColor = ConsoleColor.Blue;
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.Clear();
+
+                Console.BackgroundColor = ConsoleColor.Gray;
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine(new String(' ', 80));
+                Console.SetCursorPosition(0, 1);
+                Console.Write(new String(' ', 15));
+                Console.Write(title);
+                Console.WriteLine(new String(' ', 15));
+                Console.SetCursorPosition(0, 2);
+                Console.WriteLine(new String(' ', 80));
+
+                Console.BackgroundColor = ConsoleColor.Blue;
+                Console.ForegroundColor = ConsoleColor.Gray;
+
+                Console.WriteLine(errorLog);
+
+                Console.WriteLine($"\nThere was an error while gathering the remaining data:\n\t" + e.ToString());
+
+                Console.WriteLine("\nPress any key to power off the system...");
+
+                Console.ReadKey();
+
+                Cosmos.Core.CPU.DisableInterrupts();
+
+                Cosmos.Core.CPU.Halt();
+            }
 
             // rewrite the header lolol
 
