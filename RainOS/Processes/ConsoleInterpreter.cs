@@ -202,7 +202,14 @@ namespace RainOS.Processes
                                 {
                                     if (p.id == id)
                                     {
-                                        PM.RemoveProcess(p, splitInput[3] == "force");
+                                        if (user == p.user || PEL.CheckUserPermLevel(user.Username, p.user.PermissionLevel))
+                                        {
+                                            PM.RemoveProcess(p, splitInput[3] == "force");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("Access Denied.");
+                                        }
                                     }
                                     else
                                     {
@@ -213,7 +220,10 @@ namespace RainOS.Processes
                                 {
                                     if (p.name == name)
                                     {
-                                        PM.RemoveProcess(p, splitInput[3] == "force");
+                                        if (user == p.user || PEL.CheckUserPermLevel(user.Username, p.user.PermissionLevel))
+                                            PM.RemoveProcess(p, splitInput[3] == "force");
+                                        else
+                                            Console.WriteLine("Access Denied.");
                                     }
                                     else
                                     {
