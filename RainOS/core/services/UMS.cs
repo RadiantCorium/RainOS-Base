@@ -34,8 +34,8 @@ namespace RainOS.core.services
         /// </summary>
         /// <param name="username">username of the user to log in</param>
         /// <param name="password">unhashed password of the user to log in</param>
-        /// <returns>0 if sucessful, 1 if user not found, 2 if password incorrect</returns>
-        public static int LoginUser(string username, string password)
+        /// <returns>The user object, null if failed.</returns>
+        public static User LoginUser(string username, string password)
         {
             // hash the password
             string hashedPass = HashPassword(password);
@@ -43,15 +43,15 @@ namespace RainOS.core.services
             // check if the user exists
             string userInfo = GetUserInfo(username);
             if (userInfo == null)
-                return 1;
+                return null;
 
             // compare the credentials
             if (userInfo.Split(",")[1] != hashedPass)
-                return 2;
+                return null;
 
             // if we're at this point, the credentials are correct. create the user object and add it
             User user = new User(username, hashedPass, true);
-            if (int.TryParse(userInfo.Split(",")[2], out int level))
+            if (int.TryParse(userInfo.Split(",")[2].Trim(), out int level))
             {
                 user.PermissionLevel = (PermissionLevel)level;
                 Users.Add(user);
@@ -60,7 +60,7 @@ namespace RainOS.core.services
             {
                 user.PermissionLevel = PermissionLevel.User;
             }
-            return 0;
+            return user;
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace RainOS.core.services
 
             foreach (User user in Users)
             {
-                if (user.Name == name)
+                if (user.Username == name)
                 {
                     Users.Remove(user);
                 }
@@ -168,7 +168,7 @@ namespace RainOS.core.services
         {
             foreach (User users in Users)
             {
-                if (users.Name == username)
+                if (users.Username.Trim() == username.Trim())
                 {
                     return users;
                 }

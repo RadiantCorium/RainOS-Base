@@ -50,8 +50,19 @@ namespace RainOS.core.services
             {
                 if (!force)
                 {
+                    if (process.isCritical)
+                    {
+                        Console.WriteLine("Unable to kill critical process '" + process.name + "'");
+                        return;
+                    }
                     process.destroy();
                 }
+
+                if (process.isCritical)
+                {
+                    BSOD.Trigger(new Exception("Critical process '" + process.name + "' died!"));
+                }
+
                 processes.Remove(process);
             }
             catch (Exception ex)

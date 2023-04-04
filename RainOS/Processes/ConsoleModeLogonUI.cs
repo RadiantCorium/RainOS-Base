@@ -56,23 +56,18 @@ namespace RainOS.Processes
                 string p = Console.ReadLine();
 
                 Console.WriteLine("Checking credentials...");
-                int result = UMS.LoginUser(u, p);
+                User result = UMS.LoginUser(u, p);
 
-                switch (result)
+                if (result != null)
                 {
-                    case 0:
-                        Console.WriteLine("OK");
-                        loggedonUser = UMS.GetUser(u);
-                        succesful = true;
-                        break;
-                    case 1:
-                        Console.WriteLine("Username not found");
-                        fails++;
-                        break;
-                    case 2:
-                        Console.WriteLine("Password incorrect");
-                        fails++;
-                        break;
+                    Console.WriteLine("OK");
+                    loggedonUser = result;
+                    succesful = true;
+                }
+                else
+                {
+                    Console.WriteLine("Username or password incorrect.");
+                    fails++;
                 }
 
                 if (fails >= 3)
@@ -85,7 +80,7 @@ namespace RainOS.Processes
             }
 
             // if sucessful, close the application.
-            PM.RemoveProcess(this, false);
+            close();
         }
 
         internal override void update()

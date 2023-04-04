@@ -15,12 +15,12 @@ namespace RainOS.core.objects
         /// <param name="password">hashed password</param>
         internal User(string name, string password, bool allowLoggingIn)
         {
-            this.Name = name;
+            this.Username = name;
             this.Password = password;
             AllowLoggingIn = allowLoggingIn;
         }
 
-        public string Name { get; set; }
+        public string Username { get; set; }
         public string Password { get; set; }
         public bool AllowLoggingIn { get; set; }
         public PermissionLevel PermissionLevel { get; set; }

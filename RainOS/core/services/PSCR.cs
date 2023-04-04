@@ -33,11 +33,11 @@ namespace RainOS.core.services
 
                     foreach (var kv in data)
                     {
-                        final += kv.Key + "," + kv.Value + "\n";
+                        final += kv.Key + ":" + kv.Value + "\n";
                     }
 
                     var stream = File.CreateText(path);
-                    stream.WriteLine(final);
+                    stream.WriteLine(final.Trim());
                     stream.Close();
                 }
             }

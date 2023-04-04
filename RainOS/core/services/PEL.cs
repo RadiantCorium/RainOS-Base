@@ -26,7 +26,7 @@ namespace RainOS.core.services
                 throw new ObjectNotFoundException("user '" +  username + "'");
             }
 
-            int.TryParse(info.Split(",")[2], out int res);
+            int.TryParse(info.Split(",")[2].Trim(), out int res);
 
             if (res >= (int)level)
             {
@@ -58,7 +58,7 @@ namespace RainOS.core.services
                 throw new ArgumentNullException("process");
             }
 
-            if (!CheckUserPermLevel(process.user.Name, PermissionLevel.Elevated) && !force)
+            if (!CheckUserPermLevel(process.user.Username, PermissionLevel.Elevated) && !force)
             {
                 return false;
             }

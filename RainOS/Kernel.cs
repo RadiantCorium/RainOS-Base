@@ -1,8 +1,10 @@
 ﻿using Cosmos.Core;
+using Cosmos.System;
 using Cosmos.System.FileSystem;
 using Cosmos.System.FileSystem.VFS;
 using Cosmos.System.Graphics;
 using Cosmos.System.Graphics.Fonts;
+using Cosmos.System.ScanMaps;
 using IL2CPU.API.Attribs;
 using RainOS.core;
 using RainOS.core.services;
@@ -40,6 +42,23 @@ namespace RainOS
 
                 Console.WriteLine("Initializing PSCR...");
                 Globals.sysconfig = new PSCR(@"0:\sysconfig.psc");
+
+                Console.WriteLine("Applying Configuration...");
+                switch (Globals.sysconfig.data["kl"])
+                {
+                    case "DE":
+                        KeyboardManager.SetKeyLayout(new DE_Standard());
+                        break;
+                    case "FR":
+                        KeyboardManager.SetKeyLayout(new FR_Standard());
+                        break;
+                    case "TR":
+                        KeyboardManager.SetKeyLayout(new TR_StandardQ());
+                        break;
+                    case "US":
+                        KeyboardManager.SetKeyLayout(new US_Standard());
+                        break;
+                }
 
                 switch (Globals.sysconfig.data["dbm"])
                 {

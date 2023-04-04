@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RainOS.core.services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,5 +33,16 @@ namespace RainOS.core.objects
         internal abstract void update();
 
         internal abstract void destroy();
+
+        /// <summary>
+        /// Safely makes a process close itself by marking it as non-critical first.
+        /// </summary>
+        protected void close()
+        {
+            if (isCritical) 
+                isCritical = false;
+
+            PM.RemoveProcess(this, false);
+        }
     }
 }
