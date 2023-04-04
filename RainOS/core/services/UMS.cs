@@ -142,7 +142,8 @@ namespace RainOS.core.services
             // first make sure the user isn't currently logged in
             if (GetLoggedInUser(username) != null)
             {
-
+                Console.WriteLine("Attempt to delete currently logged in user.");
+                return false;
             }
         }
 
