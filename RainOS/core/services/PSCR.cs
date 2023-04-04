@@ -16,6 +16,11 @@ namespace RainOS.core.services
 
         internal string path = "";
 
+        /// <summary>
+        /// Loads a new PSC manager.
+        /// </summary>
+        /// <param name="path">the path to load the config from</param>
+        /// <param name="fallback">The dictionary to fallback to incase the configuration could not be loaded</param>
         internal PSCR(string path)
         {
             this.path = path;
@@ -47,25 +52,40 @@ namespace RainOS.core.services
             }
         }
 
-        internal void Load()
+        internal bool Load()
         {
             try
             {
                 if (!File.Exists(path))
+                {
                     throw new FileNotFoundException("PSCR: " + path);
+                    return false;
+                }
 
                 data = new Dictionary<string, string>();
                 string[] content = File.ReadAllLines(path);
 
+                if (content.Length == 0)
+                {
+                    return false;
+                }
+
                 foreach (string line in content)
                 {
                     var splitData = line.Split(':');
+                    if (splitData.Length < 2)
+                    {
+                        continue;
+                    }
                     data[splitData[0]] = splitData[1];
                 }
+
+                return true;
             }
             catch (Exception e)
             {
                 BSOD.Trigger(e);
+                return false;
             }
         }
     }

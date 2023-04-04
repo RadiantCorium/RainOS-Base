@@ -43,6 +43,27 @@ namespace RainOS
                 Console.WriteLine("Initializing PSCR...");
                 Globals.sysconfig = new PSCR(@"0:\sysconfig.psc");
 
+                Console.WriteLine("Checking for missing config...");
+                var amntUpdated = 0;
+                foreach (var kv in Globals.defConf)
+                {
+                    if (!Globals.sysconfig.data.ContainsKey(kv.Key))
+                    {
+                        Globals.sysconfig.data[kv.Key] = kv.Value;
+                        amntUpdated++;
+                    }
+                }
+
+                Console.WriteLine($"Found {amntUpdated} missing config string(s)!");
+
+                if (amntUpdated > 0)
+                {
+                    Console.WriteLine($"Saving updated config...");
+                    Globals.sysconfig.Save();
+                    Console.WriteLine($"Rebooting...");
+                    CPU.Reboot();
+                }
+
                 Console.WriteLine("Applying Configuration...");
                 switch (Globals.sysconfig.data["kl"])
                 {

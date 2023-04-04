@@ -156,6 +156,7 @@ namespace RainOS.core.services
             configString += "\ndbm:1"; // Default Boot Mode - 0 = Menu, 1 = Console, 2 = Graphical. Set to 1 for now, as graphical is unfinished, so no point for a menu.
             configString += "\nv:v23.13.1"; // version
             configString += "\npa:1"; // PEL Activation
+            configString += "\npn:RainOS Base"; // Product Name
 
             Console.WriteLine("Saving Config to file...");
 

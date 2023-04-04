@@ -137,6 +137,15 @@ namespace RainOS.core.services
             }
         }
 
+        public static bool DeleteUser(string username)
+        {
+            // first make sure the user isn't currently logged in
+            if (GetLoggedInUser(username) != null)
+            {
+
+            }
+        }
+
         /// <summary>
         /// Checks if a user exists
         /// </summary>
@@ -164,7 +173,7 @@ namespace RainOS.core.services
             return null;
         }
 
-        public static User GetUser(string username)
+        public static User GetLoggedInUser(string username)
         {
             foreach (User users in Users)
             {

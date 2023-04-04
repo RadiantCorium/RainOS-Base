@@ -115,11 +115,20 @@ namespace RainOS.Processes
                     switch (splitInput[1])
                     {
                         case "save":
-                            Globals.sysconfig.Save();
+                            try
+                            {
+                                Globals.sysconfig.Save();
+                                Console.WriteLine($"sysconfig saved sucessfully! Please reboot to apply changes fully.");
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine($"There was an error while saving sysconfig: '{e.ToString()}'");
+                            }
                             break;
 
                         case "load":
                             Globals.sysconfig.Load();
+                            Console.WriteLine($"sysconfig loaded sucessfully!");
                             break;
 
                         case "set":
@@ -127,6 +136,11 @@ namespace RainOS.Processes
                             break;
 
                         case "get":
+                            if (!Globals.sysconfig.data.ContainsKey(splitInput[2]))
+                            {
+                                Console.WriteLine($"Key '{splitInput[2]}' is not defined!");
+                                break;
+                            }
                             Console.WriteLine(Globals.sysconfig.data[splitInput[2]]);
                             break;
 
@@ -135,6 +149,24 @@ namespace RainOS.Processes
                             {
                                 Console.WriteLine(kv.Key + " : " + kv.Value);
                             }
+                            break;
+
+                        case "setdefault":
+                            if (!Globals.defConf.ContainsKey(splitInput[2]))
+                            {
+                                Console.WriteLine($"Key '{splitInput[2]}' has no default value!");
+                                break;
+                            }
+                            Globals.sysconfig.data[splitInput[2]] = Globals.defConf[splitInput[2]];
+                            break;
+
+                        case "remove":
+                            if (!Globals.sysconfig.data.ContainsKey(splitInput[2]))
+                            {
+                                Console.WriteLine($"Key '{splitInput[2]}' is not defined!");
+                                break;
+                            }
+                            Globals.sysconfig.data.Remove(splitInput[2]);
                             break;
                     }
                     break;

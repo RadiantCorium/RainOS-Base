@@ -17,7 +17,7 @@ namespace RainOS.Processes
 
         internal User loggedonUser;
 
-        public ConsoleModeLogonUI(int id) : base("Console Mode Login UI", id, "The UI responsible for logging the user in in console mode", PermissionLevel.System, true, false, UMS.GetUser("KERNEL"))
+        public ConsoleModeLogonUI(int id) : base("Console Mode Login UI", id, "The UI responsible for logging the user in in console mode", PermissionLevel.System, true, false, UMS.GetLoggedInUser("KERNEL"))
         {
         }
 
