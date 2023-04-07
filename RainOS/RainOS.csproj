@@ -23,17 +23,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Remove="resources\cursor.bmp" />
       <None Remove="resources\lang\EN-US.lang" />
-      <None Remove="resources\logo360.bmp" />
-      <None Remove="resources\test.bmp" />
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Include="resources\cursor.bmp" />
       <EmbeddedResource Include="resources\lang\EN-US.lang" />
-      <EmbeddedResource Include="resources\logo360.bmp" />
-      <EmbeddedResource Include="resources\test.bmp" />
     </ItemGroup>
 
     <ItemGroup>
@@ -43,7 +37,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="resources\loadinganim\" />
+      <Folder Include="core\objects\" />
+      <Folder Include="core\services\" />
+      <Folder Include="Processes\" />
     </ItemGroup>
 
 </Project>
