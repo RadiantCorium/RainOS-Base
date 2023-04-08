@@ -23,11 +23,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Remove="resources\lang\EN-US.lang" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <EmbeddedResource Include="resources\lang\EN-US.lang" />
+      <Resource Include="isoFiles\included\lang\EN-US.lang">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Resource>
     </ItemGroup>
 
     <ItemGroup>
@@ -37,9 +35,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="core\objects\" />
-      <Folder Include="core\services\" />
-      <Folder Include="Processes\" />
+      <Folder Include="processes\" />
     </ItemGroup>
 
 </Project>
